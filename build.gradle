@@ -1,0 +1,70 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'io.github.robwin:jgitflow-gradle-plugin:0.5.0'
+    }
+}
+
+plugins {
+  id "org.springframework.boot" version "1.4.5.RELEASE"
+}
+
+ext.libVersions = [
+  springBoot: '1.4.5.RELEASE'
+         
+]
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'jacoco'
+apply plugin: 'io.github.robwin.jgitflow'
+
+group = 'com.rbc.zv70.devops'
+version "${version}"
+project.ext.set('gitUserName', project.property("gitUsername") )
+project.ext.set('gitPassword', project.property("gitPassword") )
+
+def appName = 'springboot-unit-test'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+webAppDirName = 'src/main/webapp'
+war {
+	baseName = appName
+}
+
+repositories {
+	mavenCentral()
+	maven { url "http://rbcnexus.fg.rbc.com:8081/nexus/content/repositories/central/" }
+	maven { url "http://rbcnexus.fg.rbc.com:8081/nexus/content/repositories/thirdparty/" }
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web:${libVersions.springBoot}")
+    compile("org.springframework.boot:spring-boot-configuration-processor:${libVersions.springBoot}")
+    compile("org.springframework.boot:spring-boot-starter-actuator:${libVersions.springBoot}")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa:${libVersions.springBoot}")
+	testCompile("org.springframework.boot:spring-boot-starter-test:${libVersions.springBoot}")
+	testCompile("com.h2database:h2")
+}
+
+initJGitflow{
+    feature = "features-"
+    release = "releases-"
+    versiontag = 'v'
+}
+
+//Do we need another release plugin?
+task hello {
+   doLast {
+	 println 'tutorialspoint'
+	 if (project.hasProperty('gitUsername') && project.hasProperty('gitPassword')) {
+	     println project.property("gitUsername")
+	     println project.property("gitPassword")
+	 }
+   }
+}
