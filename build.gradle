@@ -39,8 +39,8 @@ war {
 
 repositories {
 	mavenCentral()
-	maven { url "http://rbcnexus.fg.rbc.com:8081/nexus/content/repositories/central/" }
-	maven { url "http://rbcnexus.fg.rbc.com:8081/nexus/content/repositories/thirdparty/" }
+	maven { url "http://abc.com:8081/nexus/content/repositories/central/" }
+	maven { url "http://abc.com:8081/nexus/content/repositories/thirdparty/" }
 }
 
 dependencies {
